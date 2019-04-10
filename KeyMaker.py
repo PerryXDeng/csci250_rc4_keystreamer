@@ -1,3 +1,9 @@
+"""
+    RC4 Keystreamer Program
+    
+    Authors: Perry Deng, Alex Noel
+"""
+
 import sys
 import binascii
 
@@ -28,7 +34,7 @@ def gen_stream(key, source):
         source[i] = source[j]
         source[j] = temp
         k = source[(source[i] + source[j]) % 256]
-        print(chr(k))
+        yield k
 
 def main():
     if len(sys.argv) == 2:
@@ -40,7 +46,10 @@ def main():
     print('key:', keyinput)
     stream_source = make_stream_source(keyinput)
     print('stream source:', stream_source)
-    gen_stream(keyinput, stream_source)
+    stream = gen_stream(keyinput, stream_source)
+    for char in plaintext:
+        sys.stdout.write("%02X" % (ord(char) ^ next(stream)))
+    print()
     
 if __name__ == '__main__':
     main()
