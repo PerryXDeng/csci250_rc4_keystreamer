@@ -42,6 +42,9 @@ def main():
     else:
         keyinput = input('enter a key to use: ')
         plaintext = input('enter a string for encrypting: ')
+    if len(keyinput) < 5 or len(keyinput) > 32:
+        print("Key must be between 5 bytes and 32 bytes long")
+        exit()
     keyinput = key_to_bytes(keyinput)
     print('key:', keyinput)
     stream_source = make_stream_source(keyinput)
